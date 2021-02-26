@@ -53,7 +53,7 @@ client.on('message', async message => {
           console.log(err)
         })
         break;
-      case 'callacagada':
+      case 'vash':
         message.reply('Vash ctmre');
         break;
       case 'info':
