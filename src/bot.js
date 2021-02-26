@@ -3,89 +3,115 @@ require('dotenv').config();
 //console.log(process.env.DISCORDJS_BOT_TOKEN);
 let price = require('crypto-price')
 
-const {Client, MessageAttachment,MessageEmbed} = require('discord.js');
+const { Client, MessageAttachment, MessageEmbed } = require('discord.js');
 const client = new Client();
 const PREFIX = "zz"
 
-client.on('ready', () =>  {
+client.on('ready', () => {
 
-console.log(client.user.username.toString())
+  console.log("El crrabot esta en linea!------------------------");
 
 });
 
-client.on('message',(message)=>{
+client.on('message', async message => {
 
-const messageCommand = message.content;
+  const messageCommand = message.content;
 
-if(messageCommand.startsWith(PREFIX))
-{
-    const [CMD_NAME, ...args] =  messageCommand.trim().substring(PREFIX.length).split(/\s+/);
+  if (messageCommand.startsWith(PREFIX)) {
+    const [CMD_NAME, ...args] = messageCommand.trim().substring(PREFIX.length).split(/\s+/);
 
     switch (CMD_NAME) {
-        case 'precio':
-
-            
-            price.getCryptoPrice('USD', args[0].toUpperCase()).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-                console.log(obj)
-                //message.channel.send(JSON.stringify(obj.price));
+      case 'precio':
 
 
-                const embed = new MessageEmbed()
-                // Set the title of the field
-                .setTitle('CryptoCrrano el precio del ' +args[0].toUpperCase() + ' es:' )
-                // Set the color of the embed
-                .setColor(0xff0000)
-                // Set the main content of the embed
-                .setDescription('Precio: ' + obj.price + ' USD' + '\n' + 'Volumen: ' + obj.volume + '\n' + 'Cambio: ' + obj.change );
-                
-                message.channel.send(embed);
+        price.getCryptoPrice('USD', args[0].toUpperCase()).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
+          console.log(obj)
+          //message.channel.send(JSON.stringify(obj.price));
 
-            }).catch(err => {
-                const embed = new MessageEmbed()
-                // Set the title of the field
-                .setTitle('Crrano Gil!' )
-                // Set the color of the embed
-                .setColor(0xff0000)
-                // Set the main content of the embed
-                .setDescription('La crypto ' + args[0] + 'no existe webonaso');
-                
-                message.channel.send(embed);
-                console.log(err)
-            })
 
-            
-          break;
-        case 'callacagada':
-            message.reply('Vash ctmre');
-          break;
-          case 'version':
-            message.reply('Crrabot version v0.1. Hay talento, falto apoyo!' + '\n' + 'By Cuzz, the creator');
-          break;
-          case 'test':
-            const embed = new MessageEmbed()     
-            .setTitle('Crrano ctmre')
+          const embed = new MessageEmbed()
+            .setTitle('CryptoCrrano el precio del ' + args[0].toUpperCase() + ' es:')
             .setColor(0xff0000)
-            .setDescription('Como se llama esta planteta!');
-   
-            message.channel.send(embed);
-          break;
-          case 'testcommand':
-            var res = {comando: CMD_NAME, parametros: args.toString()}
+            .setDescription('Precio: ' + obj.price + ' USD' + '\n' + 'Volumen: ' + obj.volume + '\n' + 'Cambio: ' + obj.change);
+          message.channel.send(embed);
 
-            message.channel.send(JSON.stringify(res));
-          break;
-          case 'monachina':
-            const attachment = new MessageAttachment('https://media.discordapp.net/attachments/321803801160056844/814395021113032744/1c2bcd4.jpg?width=283&height=534');
+        }).catch(err => {
+          const embed = new MessageEmbed()
+            // Set the title of the field
+            .setTitle('Crrano Gil!')
+            // Set the color of the embed
+            .setColor(0xff0000)
+            // Set the main content of the embed
+            .setDescription('La crypto ' + args[0] + 'no existe webonaso');
 
-            message.channel.send(attachment);
-          break;
-        default:
-            message.reply('Auxilio dame contexto, pon un comando correcto pss kagada!');
-          break;
-      }
+          message.channel.send(embed);
+          console.log(err)
+        })
 
-    
-}
+
+        break;
+      case 'callacagada':
+        message.reply('Vash ctmre');
+        break;
+      case 'version':
+        message.reply('Crrabot version v0.1. Hay talento, falto apoyo!' + '\n' + 'By Cuzz, the creator');
+        break;
+      case 'test':
+        const embed = new MessageEmbed()
+          .setTitle('Crrano ctmre')
+          .setColor(0xff0000)
+          .setDescription('Como se llama esta planteta!');
+
+        message.channel.send(embed);
+        break;
+      case 'testcommand':
+        var res = { comando: CMD_NAME, parametros: args.toString() }
+
+        message.channel.send(JSON.stringify(res));
+        break;
+      case 'monachina':
+        const attachment = new MessageAttachment('https://media.discordapp.net/attachments/321803801160056844/814395021113032744/1c2bcd4.jpg?width=283&height=534');
+        message.channel.send(attachment);
+        break;
+      case 'gnomo':
+        if (message.member.voice.channel) {
+          const connection = await message.member.voice.channel.join();
+          const ytdl = require('ytdl-core');
+          connection.play(ytdl('https://www.youtube.com/watch?v=KnHmoA6Op1o&ab_channel=Gnome', { filter: 'audioonly' }));
+          dispatcher.setVolume(0.5); // half the volume
+
+          dispatcher.on('finish', () => {
+            console.log('Finished playing!');
+          });
+
+          dispatcher.destroy();
+        } else {
+          message.channel.send('Conectate al chat de audio primero kagada!');
+        }
+        break;
+      case 'estudiasonso':
+        if (message.member.voice.channel) {
+          const connection = await message.member.voice.channel.join();
+          const ytdl = require('ytdl-core');
+          connection.play(ytdl('https://www.youtube.com/watch?v=enDATZ0YoYc&ab_channel=BenjaminPujaico', { filter: 'audioonly' }));
+          dispatcher.setVolume(0.5); // half the volume
+
+          dispatcher.on('finish', () => {
+            console.log('Finished playing!');
+          });
+
+          dispatcher.destroy();
+        } else {
+          message.channel.send('Conectate al chat de audio primero kagada!');
+        }
+        break;
+      default:
+        message.reply('Auxilio dame contexto, pon un comando correcto pss kagada!');
+        break;
+    }
+
+
+  }
 });
 
 client.login(process.env.DISCORDJS_BOT_TOKEN);
