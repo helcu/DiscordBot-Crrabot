@@ -62,15 +62,12 @@ if(messageCommand.startsWith(PREFIX))
             message.reply('Crrabot version v0.1. Hay talento, falto apoyo!' + '\n' + 'By Cuzz, the creator');
           break;
           case 'test':
-            const embed = new MessageEmbed()
-      // Set the title of the field
-      .setTitle('Crrano ctmre')
-      // Set the color of the embed
-      .setColor(0xff0000)
-      // Set the main content of the embed
-      .setDescription('Como se llama esta planteta!');
-    // Send the embed to the same channel as the message
-    message.channel.send(embed);
+            const embed = new MessageEmbed()     
+            .setTitle('Crrano ctmre')
+            .setColor(0xff0000)
+            .setDescription('Como se llama esta planteta!');
+   
+            message.channel.send(embed);
           break;
           case 'testcommand':
             var res = {comando: CMD_NAME, parametros: args.toString()}
