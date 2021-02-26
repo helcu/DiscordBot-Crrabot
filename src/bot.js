@@ -3,13 +3,18 @@ require('dotenv').config();
 //console.log(process.env.DISCORDJS_BOT_TOKEN);
 let price = require('crypto-price')
 
-const { Client, MessageAttachment, MessageEmbed } = require('discord.js');
+const { Client, MessageAttachment, MessageEmbed ,WebhookClient} = require('discord.js');
 const client = new Client();
 const PREFIX = "zz"
 
 client.on('ready', () => {
 
-  console.log("El crrabot esta en linea!------------------------");
+
+  const hook = new WebhookClient('814986585417973870', 'arDnw2G_T-JYZRprkPATShtozfp3QqV5KQRihezWVm6QRjleUSKUtXdmfx387oMEocDm');
+  hook.send("El crrabot esta en linea!------------------------"+ "\n"+'Entorno: ' + process.env.ENVIRONMENT);
+  https://discord.com/api/webhooks/814986585417973870/arDnw2G_T-JYZRprkPATShtozfp3QqV5KQRihezWVm6QRjleUSKUtXdmfx387oMEocDm
+
+  console.log("El crrabot esta en linea!------------------------"+ "\n"+'Entorno: ' + process.env.ENVIRONMENT);
 
 });
 
@@ -47,28 +52,33 @@ client.on('message', async message => {
           message.channel.send(embed);
           console.log(err)
         })
-
-
         break;
       case 'callacagada':
         message.reply('Vash ctmre');
         break;
-      case 'version':
-        message.reply('Crrabot version v0.1. Hay talento, falto apoyo!' + '\n' + 'By Cuzz, the creator');
+      case 'info':
+        const embedInfo = new MessageEmbed()
+        .setTitle('Crrabot, a la orden mi chamo')
+        .setColor(0xff0000)
+        .setDescription('Entorno: ' + process.env.ENVIRONMENT+ "\n" + "Development by: Cuzz, the creator" + "\n" + "Version: V0.5.");
+
+      message.channel.send(embedInfo);
+
+        //message.reply('Crrabot version v0.3. Hay talento, falto apoyo!' + '\n' + 'By Cuzz, the creator');
         break;
       case 'test':
-        const embed = new MessageEmbed()
+        const embedTest = new MessageEmbed()
           .setTitle('Crrano ctmre')
           .setColor(0xff0000)
           .setDescription('Como se llama esta planteta!');
 
-        message.channel.send(embed);
+        message.channel.send(embedTest);
         break;
-      case 'testcommand':
+/*       case 'testcommand':
         var res = { comando: CMD_NAME, parametros: args.toString() }
 
         message.channel.send(JSON.stringify(res));
-        break;
+        break; */
       case 'monachina':
         const attachment = new MessageAttachment('https://media.discordapp.net/attachments/321803801160056844/814395021113032744/1c2bcd4.jpg?width=283&height=534');
         message.channel.send(attachment);
@@ -77,14 +87,16 @@ client.on('message', async message => {
         if (message.member.voice.channel) {
           const connection = await message.member.voice.channel.join();
           const ytdl = require('ytdl-core');
-          connection.play(ytdl('https://www.youtube.com/watch?v=KnHmoA6Op1o&ab_channel=Gnome', { filter: 'audioonly' }));
-          dispatcher.setVolume(0.5); // half the volume
+          const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=KnHmoA6Op1o&ab_channel=Gnome', { filter: 'audioonly' }));
+          dispatcher.setVolume(0.8); // half the volume
 
           dispatcher.on('finish', () => {
             console.log('Finished playing!');
+            dispatcher.destroy();
+            connection.disconnect();
           });
 
-          dispatcher.destroy();
+        
         } else {
           message.channel.send('Conectate al chat de audio primero kagada!');
         }
@@ -115,4 +127,6 @@ client.on('message', async message => {
 });
 
 client.login(process.env.DISCORDJS_BOT_TOKEN);
+
+
 
