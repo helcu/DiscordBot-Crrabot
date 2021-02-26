@@ -101,6 +101,23 @@ client.on('message', async message => {
           message.channel.send('Conectate al chat de audio primero kagada!');
         }
         break;
+        case 'callacagada':
+          if (message.member.voice.channel) {
+            const connection = await message.member.voice.channel.join();
+            const ytdl = require('ytdl-core');
+            connection.play(ytdl(' https://www.youtube.com/watch?v=jiu2i-2b7kU&ab_channel=JuanCarlosOsunaGalv%C3%A1n', { filter: 'audioonly' }));
+            dispatcher.setVolume(0.5); // half the volume
+  
+            dispatcher.on('finish', () => {
+              console.log('Finished playing!');
+            });
+  
+            dispatcher.destroy();
+          } else {
+            message.channel.send('Conectate al chat de audio primero kagada!');
+          }
+          break;
+       
       case 'estudiasonso':
         if (message.member.voice.channel) {
           const connection = await message.member.voice.channel.join();
