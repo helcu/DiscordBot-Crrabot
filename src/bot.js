@@ -105,10 +105,10 @@ client.on('message', async message => {
           if (message.member.voice.channel) {
             const connection = await message.member.voice.channel.join();
             const ytdl = require('ytdl-core');
-            const dispatcher = connection.play(ytdl(' https://www.youtube.com/watch?v=jiu2i-2b7kU&ab_channel=JuanCarlosOsunaGalv%C3%A1n', { filter: 'audioonly' }));
+            const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=jiu2i-2b7kU&ab_channel=JuanCarlosOsunaGalv%C3%A1n', { filter: 'audioonly' }));
             dispatcher.setVolume(0.8); // half the volume
 
-            dispatcher.on('finish', () => {
+              dispatcher.on('finish', () => {
               console.log('Finished playing!');
               dispatcher.destroy();
               connection.disconnect();
