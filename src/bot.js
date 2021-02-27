@@ -105,14 +105,14 @@ client.on('message', async message => {
           if (message.member.voice.channel) {
             const connection = await message.member.voice.channel.join();
             const ytdl = require('ytdl-core');
-            connection.play(ytdl(' https://www.youtube.com/watch?v=jiu2i-2b7kU&ab_channel=JuanCarlosOsunaGalv%C3%A1n', { filter: 'audioonly' }));
-            dispatcher.setVolume(0.5); // half the volume
-  
+            const dispatcher = connection.play(ytdl(' https://www.youtube.com/watch?v=jiu2i-2b7kU&ab_channel=JuanCarlosOsunaGalv%C3%A1n', { filter: 'audioonly' }));
+            dispatcher.setVolume(0.8); // half the volume
+
             dispatcher.on('finish', () => {
               console.log('Finished playing!');
+              dispatcher.destroy();
+              connection.disconnect();
             });
-  
-            dispatcher.destroy();
           } else {
             message.channel.send('Conectate al chat de audio primero kagada!');
           }
@@ -122,14 +122,13 @@ client.on('message', async message => {
         if (message.member.voice.channel) {
           const connection = await message.member.voice.channel.join();
           const ytdl = require('ytdl-core');
-          connection.play(ytdl('https://www.youtube.com/watch?v=enDATZ0YoYc&ab_channel=BenjaminPujaico', { filter: 'audioonly' }));
-          dispatcher.setVolume(0.5); // half the volume
-
+          const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=_2e9eSEF_dM&ab_channel=TANUKICLIPS', { filter: 'audioonly' }));
+           dispatcher.setVolume(0.8);
           dispatcher.on('finish', () => {
             console.log('Finished playing!');
+            dispatcher.destroy();
+            connection.disconnect();
           });
-
-          dispatcher.destroy();
         } else {
           message.channel.send('Conectate al chat de audio primero kagada!');
         }
