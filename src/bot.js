@@ -1,38 +1,35 @@
 require('dotenv').config();
 
-//console.log(process.env.DISCORDJS_BOT_TOKEN);
-let price = require('crypto-price')
-
 const { Client, MessageAttachment, MessageEmbed ,WebhookClient} = require('discord.js');
+const axios = require('axios');
+const price = require('crypto-price')
+
+//console.log(process.env.DISCORDJS_BOT_TOKEN);
 const client = new Client();
 const PREFIX = "zz"
 
+// OPENAI API Key
+const apiKey = process.env.OPENAI_TOKEN;
+
+
 client.on('ready', () => {
-
-
   const hook = new WebhookClient('814986585417973870', 'arDnw2G_T-JYZRprkPATShtozfp3QqV5KQRihezWVm6QRjleUSKUtXdmfx387oMEocDm');
   hook.send("El crrabot esta en linea!------------------------"+ "\n"+'Entorno: ' + process.env.ENVIRONMENT);
   https://discord.com/api/webhooks/814986585417973870/arDnw2G_T-JYZRprkPATShtozfp3QqV5KQRihezWVm6QRjleUSKUtXdmfx387oMEocDm
 
   console.log("El crrabot esta en linea!------------------------"+ "\n"+'Entorno: ' + process.env.ENVIRONMENT);
-
 });
 
 client.on('message', async message => {
-
   const messageCommand = message.content;
-
   if (messageCommand.startsWith(PREFIX)) {
     const [CMD_NAME, ...args] = messageCommand.trim().substring(PREFIX.length).split(/\s+/);
 
     switch (CMD_NAME) {
       case 'precio':
-
-
         price.getCryptoPrice('USD', args[0].toUpperCase()).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
           console.log(obj)
           //message.channel.send(JSON.stringify(obj.price));
-
 
           const embed = new MessageEmbed()
             .setTitle('CryptoCrrano el precio del ' + args[0].toUpperCase() + ' es:')
@@ -133,16 +130,31 @@ client.on('message', async message => {
           message.channel.send('Conectate al chat de audio primero kagada!');
         }
         break;
+      case 'gpt':
+          const prompt = args[0];
+          try {
+            const response = await axios.post('https://api.openai.com/v1/questions', {
+              prompt,
+              model: 'text-davinci-002',
+              temperature: 0.5,
+            }, {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+              },
+            });
+
+            message.channel.send(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+
+        break;
       default:
         message.reply('Auxilio dame contexto, pon un comando correcto pss kagada!');
         break;
     }
-
-
   }
 });
 
 client.login(process.env.DISCORDJS_BOT_TOKEN);
-
-
-
